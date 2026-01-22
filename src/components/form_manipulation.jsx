@@ -40,10 +40,12 @@ export const LoginForm = () => {
             <div style={{marginBottom: "10px"}}>
             <input value ={email} onChange={e => setEmail(e.target.value)} placeholder = "Email"
             style={{borderColor: error.email? 'red': 'initial'}}/>
+            {error.email && <span style ={{color: 'red', fontsize:'12px', display: 'block'}}>{error.email}</span>}
             </div>
             <div style={{marginBottom: "10px"}}>
             <input value = {password} onChange={e => setPassword(e.target.value)} placeholder = "password"
             style={{borderColor: error.password? 'red': 'initial'}}/>
+            {error.password && <span style={{color: 'red', fontsize: '12px', display: 'block'}}>{error.password}</span>}
             </div>
             <button type="submit">Login</button>
         </form>
