@@ -1,51 +1,27 @@
-import {useState} from 'react';
+import {useForm} from 'react-hook-form';
 export const LoginForm = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [error, setError] = useState({});
 
-    const validateForm = () => {
-        let isValid = true;
-        const newErrors = {};
-        
-        if(!email){
-            newErrors.email = "Email is required"; 
-            isValid = false;
-        }else if(!email.includes('@')){
-            newErrors.email = 'Please enter a valid email';
-            isValid = false;
-        }
+    const {register, handleSubmit, formState:{errors} } = useForm();
 
-        if(!password){
-            newErrors.password = "Password is required";
-            isValid = false;
-        }else if(password.length<6){
-            newErrors.password = 'Please enter a Password of length 6';
-            isValid = false;
-        }
-        setError(newErrors);
-        return isValid;
-    }
-
-    const handleSubmit = e =>{
-        e.preventDefault();
-        if(validateForm()){
-            console.log("Login Success", email, password);
-        setError({});
-        }
+    const onSubmit = (data) =>{
+        console.log("successfully LoggedIN", data.email, data.password);
     }
 
     return(
-        <form onSubmit = {handleSubmit}>
+        <form onSubmit = {handleSubmit(onSubmit)}>
             <div style={{marginBottom: "10px"}}>
-            <input value ={email} onChange={e => setEmail(e.target.value)} placeholder = "Email"
-            style={{borderColor: error.email? 'red': 'initial'}}/>
-            {error.email && <span style ={{color: 'red', fontsize:'12px', display: 'block'}}>{error.email}</span>}
+            <input placeholder = "Email" {...register('email',
+            {required: 'email is required',
+            pattern:{value: /^\S+@\S+$/i,
+            message: "Please enter a valid email"} })}
+            style={{borderColor: errors.email? 'red': 'initial'}}/>
+            {errors.email && <span style ={{color: 'red', fontsize:'12px', display: 'block'}}>{errors.email.message}</span>}
             </div>
             <div style={{marginBottom: "10px"}}>
-            <input value = {password} onChange={e => setPassword(e.target.value)} placeholder = "password"
-            style={{borderColor: error.password? 'red': 'initial'}}/>
-            {error.password && <span style={{color: 'red', fontsize: '12px', display: 'block'}}>{error.password}</span>}
+            <input  placeholder = "password"
+            {...register('password',{required: "password is required", minLength: {value: 6, message: "Password must be atleast 6 characters"}})}
+            style={{borderColor: errors.password? 'red': 'initial'}}/>
+            {errors.password && <span style={{color: 'red', fontsize: '12px', display: 'block'}}>{errors.password.message}</span>}
             </div>
             <button type="submit">Login</button>
         </form>
