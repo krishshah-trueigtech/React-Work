@@ -1,23 +1,24 @@
 import { useState } from 'react'
+import { LoginForm } from "./components/form_manipulation.jsx"
+import {Counter} from "./components/counterApp.jsx"
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 
 function App() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [count, setCount] = useState(0)
 
   return (
     <>
-      <h1>Counter App</h1>
-      <div className="card">
-        <h1>Count {count}</h1>
-        <button onClick={() => setCount(count => count + 1)}>
-          Increement Count
-        </button>
-        <button onClick={() => setCount(count => count - 1)}>
-          Decrement Count
-        </button>
-      </div>
+    <LoginForm 
+        email={email} 
+        setEmail={setEmail} 
+        password={password}
+        setPassword={setPassword}
+    />
+    <Counter count = {count} setCount = {setCount}/>
     </>
   )
 }
