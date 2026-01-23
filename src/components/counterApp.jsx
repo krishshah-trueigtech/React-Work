@@ -1,4 +1,7 @@
-export const Counter = ({count, setCount}) => {
+import { useState } from 'react'
+
+export default Counter = () => {
+    const [count, setCount] = useState(0)
     return(
         <>
         <h1>Counter App</h1>
