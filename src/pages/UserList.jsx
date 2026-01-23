@@ -1,5 +1,5 @@
 import React from "react";
-import { useLoaderData, Link, Outlet } from "react-router-dom";
+import { useLoaderData, Link, Outlet, useSearchParams } from "react-router-dom";
 
 export const userListLoader = async () => {
   const response = await fetch(`https://jsonplaceholder.typicode.com/users`);
@@ -11,13 +11,31 @@ export const userListLoader = async () => {
 };
 const UserList = () => {
   const users = useLoaderData();
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const filterTerm = searchParams.get("filter") || "";
+
+  const filteredUsers = users.filter((u) =>
+    u.name.toLowerCase().includes(filterTerm.toLowerCase()),
+  );
+
   return (
     <>
       <div className="User Container" style={{ display: "flex", gap: "20px" }}>
         <div style={{ flex: 1 }}>
           <h2>User List</h2>
           <ul className="user-list">
-            {users.map((u) => (
+            <input
+              type="text"
+              placeholder="Search users..."
+              value={filterTerm}
+              onChange={(e) => {
+                const term = e.target.value;
+                setSearchParams(term ? { filter: term } : {});
+              }}
+              style={{ marginBottom: "15px", padding: "5px" }}
+            />
+            {filteredUsers.map((u) => (
               <li
                 key={u.id}
                 className="user-card"
