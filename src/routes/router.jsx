@@ -1,9 +1,13 @@
+import React, { Suspense } from "react";
 import { createBrowserRouter, Link, Outlet } from "react-router-dom";
 import SignUp from "../pages/signUp.jsx";
 import LoginForm from "../pages/LoginPage.jsx";
-import UserList, { userListLoader } from "../pages/UserList.jsx";
-import UserDetail, { userDetailLoader } from "../pages/UserDetail.jsx";
+import { userListLoader } from "../pages/UserList.jsx";
+import { userDetailLoader } from "../pages/UserDetail.jsx";
 import ProtectedRoute from "../components/ProtectedRoute";
+
+const UserList = React.lazy(() => import("../pages/UserList.jsx"));
+const UserDetail = React.lazy(() => import("../pages/UserDetail.jsx"));
 
 const RouteLayout = () => (
   <div className="container">
@@ -19,7 +23,9 @@ const RouteLayout = () => (
       </Link>
     </nav>
     <main>
-      <Outlet />
+      <Suspense fallback={<div>Loading Page...</div>}>
+        <Outlet />
+      </Suspense>
     </main>
   </div>
 );

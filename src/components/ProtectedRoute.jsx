@@ -1,6 +1,6 @@
 import { Navigate, Outlet } from "react-router-dom";
 
-const isAuthenticated = false;
+const isAuthenticated = true;
 
 const ProtectedRoute = () => {
   if (!isAuthenticated) {
