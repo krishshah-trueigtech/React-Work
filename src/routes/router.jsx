@@ -3,7 +3,7 @@ import SignUp from '../pages/signUp.jsx';
 import LoginForm from '../pages/LoginPage.jsx';
 import UserList, {userListLoader} from '../pages/UserList.jsx';
 import UserDetail, { userDetailLoader } from '../pages/UserDetail.jsx';
-
+import ProtectedRoute from '../components/ProtectedRoute'
 
 const RouteLayout = () => (
     <div className = "container">
@@ -25,15 +25,19 @@ export const router = createBrowserRouter([
         children: [
             {index: true, element: <SignUp/>},
             {path: "login", element: <LoginForm/>},
-            {path: "users", element: <UserList/>,
-            loader: userListLoader,
-            children: [
-                {path: ":id",
-                    element: <UserDetail/>,
-                    loader:userDetailLoader
-                }
-              ]
-           }
+            {element: <ProtectedRoute />,
+                children: [
+                    {path: "users", element: <UserList/>,
+                        loader: userListLoader,
+                        children: [
+                            {path: ":id",
+                                element: <UserDetail/>,
+                                loader:userDetailLoader
+                            }
+                          ]
+                       }
+                ]
+            }
          ]
     }
 ]);
