@@ -1,50 +1,38 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
+import {useLoaderData, Link, Outlet} from "react-router-dom"
 
-const UserList = ({}) => {
-    const [user, setUser] = useState('');
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-    
-    useEffect(()=>{
-        const fetchUsers = async () =>{
-            try{
-                const response = await fetch("https://jsonplaceholder.typicode.com/users");
-                if(!response){
-                    throw new Error("Something went wrong");
-                }
-                const data = await response.json()
+export const userListLoader = async () => {
+    const response = await fetch(`https://jsonplaceholder.typicode.com/users`);
 
-                setUser(data);
-                setLoading(false);
-            }catch (err){
-                setError(err.message);
-                setLoading(false);
-            }
-        };
-        fetchUsers();
-    },[])
-
-    if(loading){
-        return (<div className="loader">Loading users....</div>)
+    if(!response.ok) {
+        throw new Error("couldn't fetch Users")
     }
-    if(error){
-        return(<div  className="error"> Error: {error}</div>)
-    }
-
+    return response.json();
+}
+const UserList = () => {
+    const users = useLoaderData();
     return (
         <>
-        <div className="User Container">
+        <div className="User Container" style={{ display: "flex", gap: "20px" }}>
+            <div style={{ flex: 1 }}>
             <h2>User List</h2>
             <ul className="user-list">
-                {user.map((u)=>(
-                    <li key={u.id} className="user-card">
-                        <strong>{u.name}</strong>
-                        <p>{u.email}</p>
-                        <small>{u.company.name}</small>
+                {users.map((u)=>(
+                    <li key={u.id} className="user-card" style={{ marginBottom: '10px', padding: '10px', border: '1px solid #eee'}}>
+                        <Link to={`/users/${u.id}`} style={{ fontWeight: 'bold' }}>
+                            {u.name}
+                        </Link>
+                        <p style={{ margin: 0, fontSize: '0.9em' }}>{u.email}</p>
                     </li>
                 ))}
             </ul>
         </div>
+        
+        <div style={{ flex: 1, padding: "20px",  }}>
+         <Outlet />
+        </div>
+        </div>
+        
         </>
     )
 };

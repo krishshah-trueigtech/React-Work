@@ -1,7 +1,9 @@
 import { createBrowserRouter, Link, Outlet } from 'react-router-dom';
-import SignUp from '../pages/SignUp.js';
+import SignUp from '../pages/signUp.jsx';
 import LoginForm from '../pages/LoginPage.jsx';
-import UserList from '../pages/UserList.jsx';
+import UserList, {userListLoader} from '../pages/UserList.jsx';
+import UserDetail, { userDetailLoader } from '../pages/UserDetail.jsx';
+
 
 const RouteLayout = () => (
     <div className = "container">
@@ -23,7 +25,15 @@ export const router = createBrowserRouter([
         children: [
             {index: true, element: <SignUp/>},
             {path: "login", element: <LoginForm/>},
-            {path: "users", element: <UserList/>}
-        ]
+            {path: "users", element: <UserList/>,
+            loader: userListLoader,
+            children: [
+                {path: ":id",
+                    element: <UserDetail/>,
+                    loader:userDetailLoader
+                }
+              ]
+           }
+         ]
     }
 ]);
