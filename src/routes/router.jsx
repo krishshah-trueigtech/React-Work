@@ -1,7 +1,7 @@
 import { createBrowserRouter, Link, Outlet } from 'react-router-dom';
-import SignUp from '../components/SignUp.jsx';
-import LoginForm from '../components/form_manipulation.jsx';
-import UserList from '../components/UserList.jsx';
+import SignUp from '../pages/SignUp.js';
+import LoginForm from '../pages/LoginPage.jsx';
+import UserList from '../pages/UserList.jsx';
 
 const RouteLayout = () => (
     <div className = "container">
