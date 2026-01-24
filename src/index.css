@@ -11,6 +11,9 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  --bg-color: #ffffff;
+  --text-color: #213547;
+  --nav-border: #ccc;
 }
 
 a {
@@ -65,4 +68,20 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+}
+
+body.dark {
+  --bg-color: #242424;
+  --text-color: rgba(255, 255, 255, 0.87);
+  --nav-border: #444;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background-color 0.3s, color 0.3s;
+}
+
+nav {
+  border-bottom: 1px solid var(--nav-border) !important;
 }
