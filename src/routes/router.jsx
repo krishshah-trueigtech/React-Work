@@ -1,7 +1,7 @@
 import React, { Suspense } from "react";
 import { createBrowserRouter, Link, Outlet } from "react-router-dom";
 import SignUp from "../pages/signUp.jsx";
-import LoginForm from "../pages/LoginPage.jsx";
+import LoginForm , { loginAction }from "../pages/LoginPage.jsx";
 import { userListLoader } from "../pages/UserList.jsx";
 import { userDetailLoader } from "../pages/UserDetail.jsx";
 import ProtectedRoute from "../components/ProtectedRoute";
@@ -36,7 +36,9 @@ export const router = createBrowserRouter([
     element: <RouteLayout />,
     children: [
       { index: true, element: <SignUp /> },
-      { path: "login", element: <LoginForm /> },
+      { path: "login", 
+        element: <LoginForm/>, 
+        action: loginAction },
       {
         element: <ProtectedRoute />,
         children: [
